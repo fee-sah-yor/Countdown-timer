@@ -1,80 +1,47 @@
 import React, { useEffect, useState } from 'react';
 
 function App() {
- 
-    const endDate = new Date('August 30, 2023 00:00:00').getTime()
-    const now = new Date().getTime()
-    const difference = endDate - now 
 
-    const seconds = 1000
-    const minutes = seconds * 60
-    const hours = minutes * 60
-    const days = hours * 24
+  const seconds = 1000;
+  const minutes = seconds * 60;
+  const hours = minutes * 60;
+  const days = hours * 24;
+  
+  const [timeDays, setTimeDays] = useState(0);
+  const [timeHrs, setTimeHrs] = useState(0);
+  const [timeMin, setTimeMin] = useState(0);
+  const [timeSecs, setTimeSecs] = useState(0);
+  
+  useEffect(() => {
+    const countdownInterval = setInterval(() => {
+        const endDate = new Date('August 30, 2023 00:00:00').getTime();
+        const now = new Date().getTime();
+        const difference = endDate - now;
+  
+        let newTimeDays = Math.floor(difference / days);
+        let newTimeHrs = Math.floor((difference % days) / hours);
+        let newTimeMin = Math.floor((difference % hours) / minutes);
+        let newTimeSecs = Math.floor((difference % minutes) / seconds);
+  
+        newTimeHrs = newTimeHrs < 10 ? '0' + newTimeHrs : newTimeHrs
+        newTimeMin = newTimeMin < 10 ? '0' + newTimeMin : newTimeMin
+        newTimeSecs = newTimeSecs < 10 ? '0' + newTimeSecs : newTimeSecs
 
-    const[timeDays, setTimeDays] = useState(0);
-    const[timeHrs, setTimeHrs] = useState(0);
-    const[timeMin, setTimeMin] = useState(0);
-    const[timeSecs, setTimeSecs] = useState(0);
-
-  let newTimeDays =  Math.floor(difference/days)
-    let newTimeHrs =  Math.floor((difference % days)/hours)
-     let newTimeMin =  Math.floor((difference % hours)/minutes)
-     let newTimeSecs =  Math.floor((difference % minutes)/seconds)
-
-     newTimeHrs = newTimeHrs < 10 ? '0' + newTimeHrs : newTimeHrs
-     newTimeMin = newTimeMin < 10 ? '0' + newTimeMin : newTimeMin
-     newTimeSecs = newTimeSecs < 10 ? '0' + newTimeSecs : newTimeSecs
-     
-     useEffect(() => {
-       const countdown = () => {
-         setTimeDays(newTimeDays);
-               setTimeHrs(newTimeHrs);
-               setTimeMin(newTimeMin);
-               setTimeSecs(newTimeSecs);
-       }
-       setInterval(countdown,1000)
-},[days,hours,minutes,seconds])
-
-  // const seconds = 1000;
-  // const minutes = seconds * 60;
-  // const hours = minutes * 60;
-  // const days = hours * 24;
+        setTimeDays(newTimeDays);
+        setTimeHrs(newTimeHrs);
+        setTimeMin(newTimeMin);
+        setTimeSecs(newTimeSecs);
   
-  // const [timeDays, setTimeDays] = useState(0);
-  // const [timeHrs, setTimeHrs] = useState(0);
-  // const [timeMin, setTimeMin] = useState(0);
-  // const [timeSecs, setTimeSecs] = useState(0);
+        if (difference <= 0) {
+          // Countdown has ended, do something here if needed
+          clearInterval(countdownInterval);
+        }
+      }, 1000);
   
-  // useEffect(() => {
-  //   const countdownInterval = setInterval(() => {
-  //       const endDate = new Date('August 30, 2023 00:00:00').getTime();
-  //       const now = new Date().getTime();
-  //       const difference = endDate - now;
-  
-  //       let newTimeDays = Math.floor(difference / days);
-  //       let newTimeHrs = Math.floor((difference % days) / hours);
-  //       let newTimeMin = Math.floor((difference % hours) / minutes);
-  //       let newTimeSecs = Math.floor((difference % minutes) / seconds);
-  
-  //       newTimeHrs = newTimeHrs < 10 ? '0' + newTimeHrs : newTimeHrs
-  //       newTimeMin = newTimeMin < 10 ? '0' + newTimeMin : newTimeMin
-  //       newTimeSecs = newTimeSecs < 10 ? '0' + newTimeSecs : newTimeSecs
-
-  //       setTimeDays(newTimeDays);
-  //       setTimeHrs(newTimeHrs);
-  //       setTimeMin(newTimeMin);
-  //       setTimeSecs(newTimeSecs);
-  
-  //       if (difference <= 0) {
-  //         // Countdown has ended, do something here if needed
-  //         clearInterval(countdownInterval);
-  //       }
-  //     }, 1000);
-  
-    //   return () => {
-    //     clearInterval(countdownInterval);
-    //   };
-    // }, [days,hours,minutes,seconds]); // The empty dependency array makes sure this effect runs only once on mount
+      return () => {
+        clearInterval(countdownInterval);
+      };
+    }, [days,hours,minutes,seconds]); // The empty dependency array makes sure this effect runs only once on mount
   
   return (
     <>
