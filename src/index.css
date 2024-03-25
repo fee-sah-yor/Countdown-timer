@@ -42,12 +42,16 @@ a {
 }
 
 .countdown{
-  @apply p-10 bg-dark-desaturated-blue text-soft-red text-[46px] rounded-md
+  @apply p-5 bg-dark-desaturated-blue text-soft-red text-[24px] rounded-md md:p-10 md:text-[46px]
 }
+
 .count-text{
-  @apply mt-5 uppercase text-base text-grayish-blue tracking-[0.3rem]
+  @apply mt-5 uppercase text-sm text-grayish-blue tracking-[0.1rem] md:text-base md:tracking-[0.3rem]
+}
+
+.btn{
+  @apply bg-white px-3 py-1 rounded-lg text-base font-semibold hover:bg-very-dark-blue hover:text-white hover:border hover:border-soft-red
 }
 /* img{
   max-width:100vw;
 } */
-
