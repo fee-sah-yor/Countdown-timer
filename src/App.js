@@ -89,7 +89,7 @@ function App() {
         </div>
 
         <div className="relative">
-          <div className="min-h-[70vh] mt-6 flex flex-col items-center justify-center space-y-6">
+          <div className="min-h-[70vh] mt-6 flex flex-col items-center justify-center space-y-10">
             <div className="text-white text-center uppercase font-bold text-xl tracking-[0.7rem] mb-[40px]">
               We're launching soon
             </div>
@@ -133,10 +133,8 @@ function App() {
                 <p className="count-text">Seconds</p>
               </li>
             </ul>
-          </div>
-
           {/* ================BUTTONS============= */}
-          <div className=" flex items-center justify-around z-">
+          <div className=" flex items-center justify-between gap-5 z-10">
             <button
               className="border-2 border-black bg-white p-1 cursor-pointer btn"
               onClick={handleBtn}
@@ -144,21 +142,23 @@ function App() {
               Resume
             </button>
             <button
-              className="border-2 border-black bg-white p-1 btn"
+              className="border-2 border-black bg-white p-1 cursor-pointer btn"
               onClick={handleBtn}
             >
               Pause
             </button>
             <button
-              className="border-2 border-black bg-white p-1"
+              className="border-2 border-black bg-white p-1 cursor-pointer btn"
               // onClick={handleReset}
             >
               Reset
             </button>
           </div>
+
+          </div>
         </div>
 
-        <div className="absolute bottom-0 ">
+        <div className="absolute bottom-0">
           <img
             src="/images/pattern-hills.svg"
             alt="hills"
