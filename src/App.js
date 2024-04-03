@@ -30,7 +30,7 @@ function App() {
     if (e.target.innerText === "Pause") {
       setRun(false);
     } else if (e.target.innerText === "Resume") {
-      // setRun(true);
+      setRun(true);
     }
   };
 
@@ -89,7 +89,7 @@ function App() {
         </div>
 
         <div className="relative">
-          <div className="min-h-[70vh] mt-6 flex flex-col items-center justify-center space-y-10">
+          <div className="min-h-[70vh] mt-16 flex flex-col items-center justify-center space-y-10">
             <div className="text-white text-center uppercase font-bold text-xl tracking-[0.7rem] mb-[40px]">
               We're launching soon
             </div>
