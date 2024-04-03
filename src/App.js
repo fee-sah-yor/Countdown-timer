@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   // ===TO SET THE VALUES FOR THE CALCULATION
@@ -11,60 +11,71 @@ function App() {
   const [timeHrs, setTimeHrs] = useState(0);
   const [timeMin, setTimeMin] = useState(0);
   const [timeSecs, setTimeSecs] = useState(0);
+  const [run, setRun] = useState(false); //to toggle buttons
 
   // TO HOLD VALUE FOR NEW DATE INPUT
- const [date, setDate] = useState('')
- const [newDate, setNewDate] = useState('')
-//  const handleChange = (e) => {
-//   const { name, value } = e.target
-//   setDate((prev) => ({
-//       ...prev, [name]: value
-//   }))
-// };
+  const [date, setDate] = useState("");
+  const [newDate, setNewDate] = useState("");
 
+  // TO HANDLE SUBMIT WHEN BUTTON IS CLICKED
   const handleSubmit = (e) => {
-    e.preventDefault()
-   console.log(date)
-   setDate('')
-   setNewDate(...newDate, date)
+    e.preventDefault();
+    setDate("");
+    setNewDate(...newDate, date);
+    setRun(true);
   };
 
+  // TO PAUSE/RESUME TIMER WHEN BUTTON IS CLICKED
+  const handleBtn = (e) => {
+    if (e.target.innerText === "Pause") {
+      setRun(false);
+    } else if (e.target.innerText === "Resume") {
+      // setRun(true);
+    }
+  };
 
+  // const handleReset = () => {
+  //  newDate('')
+  //  console.log('reset finally works')
+  // }
+
+  // TO HANDLE COUNTDOWN SIDE EFFECT
   useEffect(() => {
-    const countdownInterval = setInterval(() => {
+    if (run) {
+        const calculateTime = setInterval(() => {
+    
+          // TO CALULATE DIFFERENCE BETWEEN CURRENT DATE AND END DATE
+          const endDate = new Date(newDate).getTime()
+          const now = new Date().getTime()
+          const difference = endDate - now
 
-      // TO CALULATE DIFFERENCE BETWEEN CURRENT DATE AND END DATE
-      const endDate = new Date(newDate).getTime()
-      const now = new Date().getTime()
-      const difference = endDate - now
-      // const endDate = new Date(date).getTime();
-      // const now = new Date().getTime();
-      // const difference = endDate - now;
-
-      let newTimeDays = Math.floor(difference / days);
-      let newTimeHrs = Math.floor((difference % days) / hours);
-      let newTimeMin = Math.floor((difference % hours) / minutes);
-      let newTimeSecs = Math.floor((difference % minutes) / seconds);
-
-      newTimeHrs = newTimeHrs < 10 ? "0" + newTimeHrs : newTimeHrs;
-      newTimeMin = newTimeMin < 10 ? "0" + newTimeMin : newTimeMin;
-      newTimeSecs = newTimeSecs < 10 ? "0" + newTimeSecs : newTimeSecs;
-
-      setTimeDays(newTimeDays);
-      setTimeHrs(newTimeHrs);
-      setTimeMin(newTimeMin);
-      setTimeSecs(newTimeSecs);
-
-      if (difference <= 0) {
-        // Countdown has ended, do something here if needed
-        clearInterval(countdownInterval);
+    console.log(difference)
+          
+          let newTimeDays = Math.floor(difference / days);
+          let newTimeHrs = Math.floor((difference % days) / hours);
+          let newTimeMin = Math.floor((difference % hours) / minutes);
+          let newTimeSecs = Math.floor((difference % minutes) / seconds);
+    console.log('here')
+          newTimeHrs = newTimeHrs < 10 ? "0" + newTimeHrs : newTimeHrs;
+          newTimeMin = newTimeMin < 10 ? "0" + newTimeMin : newTimeMin;
+          newTimeSecs = newTimeSecs < 10 ? "0" + newTimeSecs : newTimeSecs;
+    
+          setTimeDays(newTimeDays);
+          setTimeHrs(newTimeHrs);
+          setTimeMin(newTimeMin);
+          setTimeSecs(newTimeSecs);
+    
+          if (difference <= 0) {
+            // Countdown has ended, do something here if needed
+            clearInterval(calculateTime);
+          }
+        }, 1000);
+    
+        return () => {
+          clearInterval(calculateTime);
+        };
       }
-    }, 1000);
-
-    return () => {
-      clearInterval(countdownInterval);
-    };
-  }, [days, hours, minutes, seconds, newDate]); // The empty dependency array makes sure this effect runs only once on mount
+  },  [days, hours, minutes, seconds, newDate, run]);
 
   return (
     <>
@@ -89,14 +100,15 @@ function App() {
                 <label htmlFor="launch" className="text-white">
                   Launch Date :
                 </label>
-                <input value={date}
+                <input
+                  value={date}
                   name="launch"
                   type="date"
                   onChange={(e) => setDate(e.target.value)}
                   className="transparent px-3 py-1 rounded-sm"
                 />
                 {/* ==================SUBMIT BUTTON===== */}
-                <button type="submit" className="btn"  onClick={handleSubmit}>
+                <button className="btn" onClick={handleSubmit}>
                   Enter
                 </button>
               </div>
@@ -105,58 +117,46 @@ function App() {
             {/* COUNTDOWN DISPLAY */}
             <ul className="flex items-center justify-between gap-5 text-center">
               <li>
-                <h3 className="countdown">{timeDays ? timeDays : '00'}</h3>
+                <h3 className="countdown">{timeDays ? timeDays : "00"}</h3>
                 <p className="count-text">Days</p>
               </li>
               <li>
-                <h3 className="countdown">{timeHrs ? timeHrs: '00'}</h3>
+                <h3 className="countdown">{timeHrs ? timeHrs : "00"}</h3>
                 <p className="count-text">Hours</p>
               </li>
               <li>
-                <h3 className="countdown">{timeMin ? timeMin : '00'}</h3>
+                <h3 className="countdown">{timeMin ? timeMin : "00"}</h3>
                 <p className="count-text">Minutes</p>
               </li>
               <li>
-                <h3 className="countdown">{timeSecs ? timeSecs : '00'}</h3>
+                <h3 className="countdown">{timeSecs ? timeSecs : "00"}</h3>
                 <p className="count-text">Seconds</p>
               </li>
             </ul>
           </div>
 
-          {/* <div className="attribution">
-            Challenge by{" "}
-            <a
-              href="https://www.frontendmentor.io?ref=challenge"
-              target="_blank"
-              rel="noreferrer"
+          {/* ================BUTTONS============= */}
+          <div className=" flex items-center justify-around z-">
+            <button
+              className="border-2 border-black bg-white p-1 cursor-pointer btn"
+              onClick={handleBtn}
             >
-              Frontend Mentor
-            </a>
-            . Coded by{" "}
-            <a
-              href="https://www.frontendmentor.io?ref=challenge"
-              target="_blank"
-              rel="noreferrer"
+              Resume
+            </button>
+            <button
+              className="border-2 border-black bg-white p-1 btn"
+              onClick={handleBtn}
             >
-              Your Name Here
-            </a>
-            .
-          </div> */}
+              Pause
+            </button>
+            <button
+              className="border-2 border-black bg-white p-1"
+              // onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
         </div>
-
-        {/* <div className="absolute bottom-[40px] z-[999] left-[33%] md:left-[45%]">
-          <ul className="flex items-center justify-between gap-6">
-            <li>
-              <img src="/images/icon-facebook.svg" alt="" />
-            </li>
-            <li>
-              <img src="/images/icon-pinterest.svg" alt="" />
-            </li>
-            <li>
-              <img src="/images/icon-instagram.svg" alt="" />
-            </li>
-          </ul>
-        </div> */}
 
         <div className="absolute bottom-0 ">
           <img
